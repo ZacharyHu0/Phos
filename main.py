@@ -136,6 +136,11 @@ def main():
         # 处理输入
         if str.isdigit(min_size_input):
             min_size = int(min_size_input)
+            if not (10<=min_size and min_size<=10000):
+                st.error("短边像素数限制为10-10000")
+                min_size = 1000
+                # 立即重新运行以更新输入框
+                st.rerun()
         else:
             st.error("请输入数字")
             # 重置为默认值
@@ -228,11 +233,12 @@ def main():
             st.divider()
 
             # 根据选择的对比模式显示图像
+            mono_str = "(单色)" if (2 == len(film_img.shape)) else ""
             if comparison_mode == "并排对比":
                 st.subheader("冲洗结果")
                 col1, col2 = st.columns(2)
                 with col1:
-                    st.image(original_img, caption="原始图像", width='stretch')
+                    st.image(original_img, caption=f"原始图像{mono_str}", width='stretch')
                 with col2:
                     st.image(film_img, caption="胶片模拟图像", width='stretch')
 
@@ -244,7 +250,7 @@ def main():
                 col1, col2 = st.columns(2)
 
                 with col1:
-                    st.image(original_img, caption="原始图像", width='stretch')
+                    st.image(original_img, caption=f"原始图像{mono_str}", width='stretch')
                 with col2:
                     st.image(film_img, caption="胶片模拟", width='stretch')
 
@@ -288,11 +294,11 @@ def main():
                 byte_original = buf_original.getvalue()
 
                 st.download_button(
-                    label="📷 下载原图JPG",
+                    label=f"📷 下载原图{mono_str}JPG",
                     data=byte_original,
                     file_name=f"original_{out_path}",
                     mime="image/jpeg",
-                    help="下载标准化后的原始图像"
+                    help=f"下载标准化后的原始图像{mono_str}"
                 )
 
             with col2:
