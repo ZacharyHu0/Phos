@@ -1,4 +1,4 @@
-# Phos v1.1.5 - 基于计算光学的胶片模拟 (Physically Based Film Simulation)
+# 🎞️Phos v1.1.5 - 基于计算光学的胶片模拟 (Physically Based Film Simulation)
 
 **Phos** 是一个基于“计算光学”概念的胶片模拟引擎。与传统的滤镜不同，Phos计算光线在胶片层上的物理行为，复现模拟摄影自然、柔美且立体的质感。
 
@@ -48,8 +48,8 @@
 pip install -r requirements.txt
 ```
 ### 启动
-1. 双击 `run.bat` 启动
-2. 命令行启动
+1. 双击 `run.bat` 启动。
+2. 命令行启动：
 ```bash
 streamlit run main.py
 ```
@@ -64,7 +64,7 @@ streamlit run main.py
 *   pillow
 *  opencv-python
 
-# 许可证 License
+# ⚖️许可证 License
 
 本项目基于 AGPL-3.0 许可证分发。
 This project is licensed under AGPL-3.0.
