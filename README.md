@@ -1,10 +1,11 @@
-# Phos_refactor v1.0.0 - 基于计算光学的胶片模拟 (Physically Based Film Simulation)
+# Phos v1.1.5 - 基于计算光学的胶片模拟 (Physically Based Film Simulation)
 
-**Phos_refactor** 是一个基于“计算光学”概念的胶片模拟引擎（基于项目 Phos）。与传统的滤镜不同，Phos_refactor 计算光线在胶片层上的物理行为，复现模拟摄影自然、柔美且立体的质感。
+**Phos** 是一个基于“计算光学”概念的胶片模拟引擎。与传统的滤镜不同，Phos计算光线在胶片层上的物理行为，复现模拟摄影自然、柔美且立体的质感。
 
 **Phos_refactor** is a film simulation engine based on the concept of "Computational Optics" (formerly Phos). Unlike traditional filters, it calculates the physical behavior of light on film layers.
 
 > **v1.1.0 更新**: 现已支持 **读取RAW嵌入的机内优化JPG**、**比对视图** 以及 **滤镜混合强度调节**。
+
 > **v1.0.0 重大更新**: 现已支持真正的 **线性光学工作流 (Linear Optical Workflow)**、**ACES 标准色调映射** 以及 **物理染料耦合模拟**。
 
 > [!WARNING]
@@ -42,11 +43,11 @@
 
 ## 🚀 使用方法 Usage
 
-###安装
+### 安装
 ```bash
 pip install -r requirements.txt
 ```
-###启动
+### 启动
 1. 双击 `run.bat` 启动
 2. 命令行启动
 ```bash
