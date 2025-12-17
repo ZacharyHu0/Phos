@@ -64,7 +64,6 @@ def process_image(uploaded_file, preset_name, iso, tone_style, exposure_ev, hala
     # Standardize
     with st.spinner('正在标准化图像尺寸...'):
         image = standardize(image, min_size)
-        original_standardized = standardize(original_image, min_size)
 
     # Process
     with st.spinner('正在进行光化学显影 (计算光照/光晕/颗粒)...'):
@@ -93,13 +92,16 @@ def process_image(uploaded_file, preset_name, iso, tone_style, exposure_ev, hala
             else:
                 st.warning('不使用RAW文件嵌入图，直接计算RAW显示原始图像与计算分析')
 
-        original_display = standardize(original_display, min_size)
         # is nomo color film
         if(2==len(film.shape)):
-            original_display = np.dot(original_display[...,:3], [0.11, 0.59, 0.3]).astype(np.uint8)
-
+            original_display = np.dot(original_display[...,:3], [0.11, 0.59, 0.3])
+        #scale to same size, use film.shape for px matching
+        interpolation = cv2.INTER_AREA if np.sum(original_display.shape) < np.sum(film.shape) else cv2.INTER_LANCZOS4
+        original_display = cv2.resize(original_display, (film.shape[1],film.shape[0]), interpolation=interpolation)
+        original_display = original_display.astype(np.uint8)
     else: #is jpg/png
-        # 转换图像格式用于显示
+        # 转换图像大小
+        original_standardized = standardize(original_image, min_size)
         if (2 == len(film.shape)):  # is nomo color film
             # 原始图像：BGR转gray
             original_display = cv2.cvtColor(original_standardized, cv2.COLOR_BGR2GRAY)
@@ -257,13 +259,17 @@ def main():
                 )
 
                 # 创建混合图像
-                blend_img = cv2.addWeighted(original_img, 1 - blend_ratio, film_img, blend_ratio, 0)
+                try:
+                    blend_img = cv2.addWeighted(original_img, 1 - blend_ratio, film_img, blend_ratio, 0)
 
-                # 显示混合图像
-                st.image(blend_img,
-                         caption=f"混合图像 (原始: {(1 - blend_ratio) * 100:.0f}%, 处理: {blend_ratio * 100:.0f}%)",
-                         width='stretch')
-
+                    # 显示混合图像
+                    st.image(blend_img,
+                             caption=f"混合图像 (原始: {(1 - blend_ratio) * 100:.0f}%, 处理: {blend_ratio * 100:.0f}%)",
+                             width='stretch')
+                except Exception as e:
+                    st.error("混合失败，请尝试：1.减小输出尺寸。2.不勾选“使用嵌入预览”。")
+                    st.caption(f"错误调试信息：{e}")
+                    blend_img = None
             else:  # 单独显示
                 st.subheader("胶片模拟结果")
                 st.image(film_img, caption=f"处理完成 ({p_time:.2f}s)", width='stretch')
@@ -306,7 +312,7 @@ def main():
 
             with col3:
                 # 下载混合图像（如果选择的是并排对比模式）
-                if comparison_mode == "混合叠加":
+                if comparison_mode == "混合叠加" and blend_img is not None:
                     comparison_pil = Image.fromarray(blend_img)
                     buf_comparison = io.BytesIO()
                     comparison_pil.save(buf_comparison, format="JPEG", quality=95)
