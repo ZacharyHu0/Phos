@@ -2,6 +2,7 @@ import rawpy
 import numpy as np
 import cv2
 import io
+from PIL import Image
 from typing import Union, Optional
 
 def load_raw_image(file_obj: Union[str, io.BytesIO]) -> Optional[np.ndarray]:
@@ -58,3 +59,36 @@ def ensure_uint8(image: np.ndarray) -> np.ndarray:
         return (image / 256).astype(np.uint8)
         
     return image.astype(np.uint8)
+
+def extract_thumbnail_from_raw(raw_data):
+    """
+    从 RAW 文件中提取缩略图
+    file_bytes: 字节数据 (bytes) 或类文件对象 (如 io.BytesIO)
+    """
+    try:
+
+        # 使用 rawpy 提取缩略图
+        with rawpy.RawPy() as raw:
+            raw.open_buffer(raw_data)
+
+            try:
+                thumb = raw.extract_thumb()
+            except (rawpy.LibRawNoThumbnailError,
+                    rawpy.LibRawUnsupportedThumbnailError):
+                return None
+
+            if thumb is not None:
+                print("[info] 找到缩略图")
+                if thumb.format == rawpy.ThumbFormat.JPEG:
+                    # thumb.data 通常已经是 bytes
+                    img = Image.open(io.BytesIO(thumb.data))
+                    return np.array(img)
+            else:
+                print("[info] 未找到缩略图")
+        return None
+
+    except Exception as e:
+        print(f"[Warning]rawpy 提取缩略图失败: {e}")
+        import traceback
+        traceback.print_exc()
+        return None
