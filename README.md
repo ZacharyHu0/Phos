@@ -1,4 +1,4 @@
-# 🎞️Phos v1.1.5 - 基于计算光学的胶片模拟 (Physically Based Film Simulation)
+# 🎞️Phos v1.1.6 - 基于计算光学的胶片模拟 (Physically Based Film Simulation)
 
 **Phos** 是一个基于“计算光学”概念的胶片模拟引擎。与传统的滤镜不同，Phos计算光线在胶片层上的物理行为，复现模拟摄影自然、柔美且立体的质感。
 

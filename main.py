@@ -8,7 +8,7 @@ from phos.config import get_preset, PRESETS
 from phos.core import FilmRenderer, standardize
 from phos.utils import load_raw_image, extract_thumbnail_from_raw
 
-version = 'v1.1.5'
+version = 'v1.1.6'
 # 设置页面配置 
 st.set_page_config(
     page_title="Phos 胶片模拟 (" + version + ")",
