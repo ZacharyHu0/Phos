@@ -70,32 +70,42 @@ def process_image(uploaded_file, preset_name, iso, tone_style, exposure_ev, hala
     with st.spinner('正在进行光化学显影 (计算光照/光晕/颗粒)...'):
         film = renderer.process(image, iso, tone_style, exposure_ev, halation_intensity)
         print("film image size:" + str(film.shape))
+        print(len(film.shape))
     process_time = time.time() - start_time
     timestamp = time.strftime("%Y%m%d_%H%M%S")
     output_filename = f"phos_{preset_name}_{timestamp}.jpg"
 
-    # 转换图像格式用于显示
-    # 原始图像：BGR转RGB
-    original_display = cv2.cvtColor(original_standardized, cv2.COLOR_BGR2RGB)
-    if original_image.dtype != np.uint8:    # is raw file？
-        # 初始化缩略图变量
-
+    # is raw file？
+    if original_image.dtype != np.uint8:
         if use_embed and thumbnail_image is not None:
             original_display = thumbnail_image
             if film.shape[0] > film.shape[1]:#竖排翻转
                 original_display = cv2.rotate(original_display, cv2.ROTATE_90_COUNTERCLOCKWISE)
             original_display = np.array(original_display)
-            original_display = standardize(original_display, min_size)
+            original_display = original_display.astype(np.uint8)
             st.info('读取到RAW嵌入图作为原始图像，使用RAW进行计算光学分析')
         else:
             original_display = cv2.cvtColor(original_image, cv2.COLOR_BGR2RGB)
             original_display = cv2.normalize(original_display, None, 0, 255, cv2.NORM_MINMAX)
             original_display = original_display.astype(np.uint8)
-            original_display = standardize(original_display, min_size)
             if use_embed:
                 st.warning('未读取到RAW文件嵌入图，直接计算RAW显示原始图像与计算分析')
             else:
                 st.warning('不使用RAW文件嵌入图，直接计算RAW显示原始图像与计算分析')
+
+        original_display = standardize(original_display, min_size)
+        # is nomo color film
+        if(2==len(film.shape)):
+            original_display = np.dot(original_display[...,:3], [0.11, 0.59, 0.3]).astype(np.uint8)
+
+    else: #is jpg/png
+        # 转换图像格式用于显示
+        if (2 == len(film.shape)):  # is nomo color film
+            # 原始图像：BGR转gray
+            original_display = cv2.cvtColor(original_standardized, cv2.COLOR_BGR2GRAY)
+        else:
+            # 原始图像：BGR转RGB
+            original_display = cv2.cvtColor(original_standardized, cv2.COLOR_BGR2RGB)
 
     return original_display, film, process_time, output_filename
 
