@@ -317,7 +317,7 @@ def main():
             st.success(f"暗房就绪: {film_type}")
     # 添加声明部分
     st.divider()
-    st.text("所有处理在本地完成，图像不会上传到服务器。")
+    st.text("所有处理在云端完成，关闭页面后图像不会在服务器保存。")
     st.caption("🤝Credits:  @LYCO6273  @Dominic Duan  @子月")
     st.caption("If this project helped you, please consider giving it a ⭐️ **Star** on GitHub! "
                "It helps more people discover this tool and motivates further development. ")
