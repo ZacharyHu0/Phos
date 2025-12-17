@@ -42,11 +42,14 @@
 
 ## 🚀 使用方法 Usage
 
-1. 双击`run.bat`启动
-
-2. 命令行启动
+###安装
 ```bash
 pip install -r requirements.txt
+```
+###启动
+1. 双击 `run.bat` 启动
+2. 命令行启动
+```bash
 streamlit run main.py
 ```
 
