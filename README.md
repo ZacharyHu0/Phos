@@ -4,6 +4,7 @@
 
 **Phos_refactor** is a film simulation engine based on the concept of "Computational Optics" (formerly Phos). Unlike traditional filters, it calculates the physical behavior of light on film layers.
 
+> **v1.1.0 更新**: 现已支持 **读取RAW嵌入的机内优化JPG**、**比对视图** 以及 **滤镜混合强度调节**。
 > **v1.0.0 重大更新**: 现已支持真正的 **线性光学工作流 (Linear Optical Workflow)**、**ACES 标准色调映射** 以及 **物理染料耦合模拟**。
 
 > [!WARNING]
@@ -41,6 +42,9 @@
 
 ## 🚀 使用方法 Usage
 
+1. 双击`run.bat`启动
+
+2. 命令行启动
 ```bash
 pip install -r requirements.txt
 streamlit run main.py
@@ -49,11 +53,12 @@ streamlit run main.py
 ## 📦 依赖 Requirements
 
 *   Python 3.10+
-*   **rawpy** (新增! 用于 RAW 处理)
+*   rawpy
 *   numpy
 *   opencv-python-headless
 *   streamlit
 *   pillow
+*  opencv-python
 
 # 许可证 License
 
@@ -62,9 +67,12 @@ This project is licensed under AGPL-3.0.
 
 本项目包含了由 **@LYCO6273** 开发的原始代码。
 This project contains original code developed by **@LYCO6273**.
+*   **GitHub**: [https://github.com/LYCO6273/Phos](https://github.com/LYCO6273/Phos)
 
 **Dominic Duan** 对本项目进行了重构与功能扩展。
 **Dominic Duan** refactored and extended this project.
+*  **GitHub**: [https://github.com/Linglingletsgo/Phos_refactor](https://github.com/Linglingletsgo/Phos_refactor)
+
 
 根据 AGPL-3.0 条款，您可以：
 - 自由使用、研究、修改源代码
@@ -73,17 +81,3 @@ This project contains original code developed by **@LYCO6273**.
 您必须：
 - **保留原作者及重构作者的版权声明**
 - **在相同许可证 (AGPL-3.0) 下分发您的修改版本**
-
-# 作者 Author
-
-## 重构与更新 (Refactoring & Update)
-**@Dominic Duan**
-*   **GitHub**: [https://github.com/Linglingletsgo/Phos_refactor](https://github.com/Linglingletsgo/Phos_refactor)
-*   **Website**: [www.dominicduan.com](http://www.dominicduan.com)
-*   **Email**: lingonthebeat@gmail.com
-*   **小红书 (XiaoHongShu)**: @Linglingletsgo
-
-## 原作者 (Original Author)
-**@LYCO6273**
-*   **GitHub**: [https://github.com/LYCO6273/Phos](https://github.com/LYCO6273/Phos)
-*   **Email**: lyco_p@163.com
